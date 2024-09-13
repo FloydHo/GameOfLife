@@ -172,6 +172,7 @@ namespace GameOfLife
             {
                 cellSize = newSize;
                 // Trigger das Neuzeichnen nach der Aktualisierung der Zellgröße
+                // 
                 DrawField.Invalidate();
             }
             else
