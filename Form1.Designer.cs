@@ -1,6 +1,6 @@
 ﻿namespace GameOfLife
 {
-    partial class Form1
+    partial class GameOfLife
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -92,6 +92,7 @@
             // 
             // button3
             // 
+            this.button3.Enabled = false;
             this.button3.Location = new System.Drawing.Point(978, 441);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(100, 23);
@@ -153,7 +154,7 @@
             this.GenerationCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.GenerationCount.Click += new System.EventHandler(this.GenerationCount_Click);
             // 
-            // Form1
+            // GameOfLife
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -169,8 +170,9 @@
             this.Controls.Add(this.cellSizeBox);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.DrawField);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "GameOfLife";
+            this.Text = "Conway\'s Game of Life";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

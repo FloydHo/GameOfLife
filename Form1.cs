@@ -12,33 +12,41 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace GameOfLife
 {
-    public partial class Form1 : Form
+    public partial class GameOfLife : Form
     {
         Timer timer;
         int cellSize = 4;
+
         int col;
         int row;
+
+        //Wahrscheinlichkeit, dass eine Zelle lebt
         int ran = 15;
+
+        //Speichert die lebenden Zellen damit schneller iteriert werden kann
         HashSet<(int x, int y)> aliveCellField = new HashSet<(int, int)>();
 
         bool isRunning = false;
         int generation = 0;
 
-        public Form1()
+        public GameOfLife()
         {
             var rand = new Random();
 
             InitializeComponent();
 
 
+            //Debug Start Pattern
+
             //aliveCellField.Add((10, 10));
             //aliveCellField.Add((11, 11));
             //aliveCellField.Add((9, 12));
             //aliveCellField.Add((10, 12));
             //aliveCellField.Add((11, 12));
+
+
             InitializeField(rand);
 
-            this.DoubleBuffered = true;
             DrawField.Paint += new PaintEventHandler(panel1_Paint);
             cellSizeBox.Text = cellSize.ToString();
             RandBox.Text = ran.ToString();
@@ -47,7 +55,6 @@ namespace GameOfLife
             timer.Interval = 1;
             timer.Tick += (sender, e) =>
             {
-
                 UpdateCells();
             };
   
@@ -83,7 +90,7 @@ namespace GameOfLife
 
             foreach (var coor in aliveCellField)
                     //g.DrawRectangle(pen, x*cellSize, y*cellSize, 10, 10);
-                    g.FillRectangle(brush, coor.x * cellSize+1, coor.y * cellSize+1, cellSize-2, cellSize-2);
+                    g.FillRectangle(brush, coor.x * cellSize+1, coor.y * cellSize+1, cellSize, cellSize);
         }
 
         void UpdateCells()
@@ -117,10 +124,15 @@ namespace GameOfLife
                 }
             }
 
+            //Weclhe Zellen leben, welche sterben (Death Neighbor Survive/ Born)
+            int[] dnS = {2, 3};
+            int[] dnB = { 3 };
+
+
             foreach (var cell in oldCells)
             {
                 counter = CountNeighbors(cell.x, cell.y, oldCells);
-                if (counter == 2 || counter == 3)
+                if (dnS.Contains(counter))
                 {
                     newCells.Add(cell);
                 }
@@ -129,7 +141,7 @@ namespace GameOfLife
             foreach (var cell in chanceOfBorn)
             {
                 counter = CountNeighbors(cell.x, cell.y, oldCells);
-                if (counter == 3)
+                if (dnB.Contains(counter))
                 {
                     newCells.Add(cell);
                 }
@@ -152,6 +164,7 @@ namespace GameOfLife
             return count;
         }
 
+        // Berechne Wraparound (Zellen gehen von einer Seite zur anderen)
         int z_x(int x)
         {
             if (x < 0) x = col;
@@ -255,6 +268,11 @@ namespace GameOfLife
                 e.SuppressKeyPress = true;
             }
             
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 
